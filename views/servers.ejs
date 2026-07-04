@@ -2,13 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Select Server</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select a Server</title>
   <style>
-    body { background: #13141a; color: #fff; font-family: 'Segoe UI', sans-serif;
-           display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #13141a; color: #fff; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+
+    .navbar { background: #1e1f28; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2e2f3e; }
+    .navbar h1 { font-size: 1.2rem; color: #7c6dff; font-weight: 700; }
+    .navbar .user { display: flex; align-items: center; gap: 10px; }
+    .navbar img { width: 36px; height: 36px; border-radius: 50%; }
+    .navbar a { color: #72748a; text-decoration: none; font-size: 0.9rem; }
+    .navbar a:hover { color: #fff; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    h2 { font-size: 1.6rem; margin-bottom: 8px; }
+    p.sub { color: #72748a; margin-bottom: 32px; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+
+    .server-card { background: #1e1f28; border: 1px solid #2e2f3e; border-radius: 12px; padding: 24px 16px; text-align: center; text-decoration: none; color: #fff; transition: all 0.2s; cursor: pointer; }
+    .server-card:hover { border-color: #7c6dff; transform: translateY(-2px); background: #22232e; }
+    .server-card img { width: 64px; height: 64px; border-radius: 50%; margin-bottom: 12px; }
+    .server-card .icon-placeholder { width: 64px; height: 64px; border-radius: 50%; background: #7c6dff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 12px; }
+    .server-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .server-card span { font-size: 0.8rem; color: #72748a; }
+
+    .invite-card { background: #1e1f28; border: 2px dashed #2e2f3e; border-radius: 12px; padding: 24px 16px; text-align: center; text-decoration: none; color: #72748a; transition: all 0.2s; }
+    .invite-card:hover { border-color: #7c6dff; color: #7c6dff; }
+    .invite-card .plus { font-size: 2rem; margin-bottom: 8px; }
+    .invite-card h3 { font-size: 0.95rem; }
   </style>
 </head>
 <body>
-  <h1>Step 2 coming soon...</h1>
+
+  <nav class="navbar">
+    <h1>Bot Dashboard</h1>
+    <div class="user">
+      <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="avatar">
+      <span><%= user.username %></span>
+      <a href="/auth/logout">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Select a Server</h2>
+    <p class="sub">Only servers you can manage are shown.</p>
+
+    <div class="grid">
+      <% 
+        const manageableGuilds = guilds.filter(g => (BigInt(g.permissions) & BigInt(0x20)) === BigInt(0x20));
+        manageableGuilds.forEach(guild => { 
+      %>
+        <a class="server-card" href="/dashboard/<%= guild.id %>">
+          <% if (guild.icon) { %>
+            <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" alt="icon">
+          <% } else { %>
+            <div class="icon-placeholder"><%= guild.name.charAt(0) %></div>
+          <% } %>
+          <h3><%= guild.name %></h3>
+          <span>Manage Server</span>
+        </a>
+      <% }) %>
+
+      <a class="invite-card" href="<%= botInvite %>" target="_blank">
+        <div class="plus">+</div>
+        <h3>Add to Server</h3>
+      </a>
+    </div>
+  </div>
+
 </body>
 </html>
