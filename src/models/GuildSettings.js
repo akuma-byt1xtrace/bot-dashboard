@@ -18,6 +18,8 @@ const GuildSettingsSchema = new mongoose.Schema({
   sticky_channel:       { type: String, default: "" },
   sticky_message:       { type: String, default: "" },
   modules_enabled:      { type: Number, default: 0 },
+  autoreact_channel: { type: String, default: "" },
+  autoreact_emojis:  { type: String, default: "" },
 }, { timestamps: true });
 
 module.exports = mongoose.model("GuildSettings", GuildSettingsSchema);
