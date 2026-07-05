@@ -244,7 +244,7 @@
         </div>
         <div class="form-group">
           <label>Emojis (space separated)</label>
-          <input type="text" id="react-emojis" placeholder="👍 🔥 ❤️">
+<input type="text" placeholder="👍 🔥 ❤️" value="<%= settings.autoreact_emojis || '' %>" onchange="saveSetting('autoreact_emojis', this.value)">
         </div>
         <button class="btn btn-primary" onclick="saveAll()">Add Reaction</button>
       </div>
