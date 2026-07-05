@@ -235,7 +235,7 @@
       <div class="card">
         <div class="form-group">
           <label>Channel</label>
-          <select id="react-channel">
+          <select onchange="saveSetting('autoreact_channel', this.value)">
             <option value="">— Select a channel —</option>
             <% channels.filter(c => c.type === 0).forEach(c => { %>
               <option value="<%= c.id %>">#<%= c.name %></option>
